@@ -1,6 +1,5 @@
 gqlalchemy
-django
-djangorestframework
-django-filter
 markdown
-neomodel
+fastapi
+strawberry
+pytest

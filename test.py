@@ -82,7 +82,7 @@ async def test_create_source():
     assert resp.errors is None
 
 @pytest.mark.asyncio
-async def test_create_post_with_known_user():
+async def test_create_two_posts_with_known_user_on_same_source():
     data, errors = await createUniqueUser()
     mutation = """
         mutation TestMutation {
@@ -94,8 +94,25 @@ async def test_create_post_with_known_user():
             }
         }
     """
-    resp = await schema.execute(
+    resp1 = await schema.execute(
         mutation,
     )
-    assert resp.errors is None
-    assert data["id"] == resp.data["createPost"]["appuserId"]
+    assert resp1.errors is None
+    assert data["id"] == resp1.data["createPost"]["appuserId"]
+
+    mutation = """
+        mutation TestMutation {
+            createPost(firstName: "Ulf", commentText:"commentText2", link:"https://www.nachdenkseiten.de/?p=121861", quoteText:"quoteText2", title:"Gipfel der Ratlosigkeit") {
+                appuserId
+                commentId
+                quoteId
+                sourceId
+            }
+        }
+    """
+    resp2 = await schema.execute(
+        mutation,
+    )
+    assert resp2.errors is None
+    assert resp1.data["createPost"]["sourceId"] == resp2.data["createPost"]["sourceId"]
+    assert resp1.data["createPost"]["appuserId"] == resp2.data["createPost"]["appuserId"]
