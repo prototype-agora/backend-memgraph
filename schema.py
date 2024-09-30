@@ -103,10 +103,10 @@ class Query:
                 title=post["s"].title,
                 quotes=quotes
             )
-            posts.append(PostResource(
-                source=source,
-                user=user
-                ))
+        posts.append(PostResource(
+            source=source,
+            user=user
+            ))
         return posts
 
     @strawberry.field
