@@ -1,0 +1,6 @@
+gqlalchemy
+django
+djangorestframework
+django-filter
+markdown
+neomodel
